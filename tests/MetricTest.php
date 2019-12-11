@@ -2,34 +2,57 @@
 
 namespace ReactInspector\Tests;
 
-use PHPUnit\Framework\TestCase;
+use ReactInspector\Measurement;
 use ReactInspector\Metric;
+use ReactInspector\Tag;
+use ReactInspector\UnexpectedValueException;
+use WyriHaximus\TestUtilities\TestCase;
 
 /**
  * @internal
  */
 final class MetricTest extends TestCase
 {
-    public function testBasics(): void
+    /**
+     * @test
+     */
+    public function throwExceptionOnNonTagsInTagArray(): void
     {
-        $key = 'key';
-        $value = 123.45;
-        $time = \microtime(true);
-        $metric = new Metric($key, $value, $time);
-        self::assertSame($key, $metric->getKey());
-        self::assertSame($value, $metric->getValue());
-        self::assertSame($time, $metric->getTime());
+        self::expectException(UnexpectedValueException::class);
+        self::expectExceptionMessageMatches('#Tag#');
+
+        new Metric('name', [new Measurement(0.0)], []);
     }
 
-    public function testOmittingTime(): void
+    /**
+     * @test
+     */
+    public function throwExceptionOnNonMeasurementsInMeasurementArray(): void
     {
-        $key = 'key';
-        $value = 123.45;
-        $timeBefore = \microtime(true);
-        $metric = new Metric($key, $value);
-        $timeAfter = \microtime(true);
-        self::assertSame($key, $metric->getKey());
-        self::assertSame($value, $metric->getValue());
-        self::assertTrue($metric->getTime() >= $timeBefore && $metric->getTime() <= $timeAfter);
+        self::expectException(UnexpectedValueException::class);
+        self::expectExceptionMessageMatches('#Measurement#');
+
+        new Metric('name', [new Tag('key', 'value')], [new Tag('key', 'value')]);
+    }
+
+    /**
+     * @test
+     */
+    public function expectedBehaviorGetters(): void
+    {
+        $tags = [new Tag('key', 'value')];
+        $measurements = [new Measurement(0.0, new Tag('key', 'value'))];
+
+        $metric = new Metric('name', $tags, $measurements);
+
+        self::assertSame('name', $metric->name());
+        self::assertSame($tags, $metric->tags());
+        self::assertSame('key', $metric->tags()[0]->key());
+        self::assertSame('value', $metric->tags()[0]->value());
+        self::assertSame($measurements, $metric->measurements());
+        self::assertSame(0.0, $metric->measurements()[0]->value());
+        self::assertSame('key', $metric->measurements()[0]->tags()[0]->key());
+        self::assertSame('value', $metric->measurements()[0]->tags()[0]->value());
+        self::assertIsFloat( $metric->time());
     }
 }

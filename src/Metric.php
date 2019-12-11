@@ -7,12 +7,7 @@ final class Metric
     /**
      * @var string
      */
-    private $key;
-
-    /**
-     * @var float
-     */
-    private $value;
+    private $name;
 
     /**
      * @var float
@@ -20,43 +15,62 @@ final class Metric
     private $time;
 
     /**
-     * @param string $key
-     * @param float  $value
-     * @param float  $time
+     * @var Tag[]
      */
-    public function __construct(string $key, float $value, float $time = null)
-    {
-        $this->key = $key;
-        $this->value = $value;
-        $this->time = $time ?? \microtime(true);
-    }
-
-    public function __toString(): string
-    {
-        return $this->key . ' ' . (string)$this->value . ' ' . (string)$this->time;
-    }
+    private $tags;
 
     /**
-     * @return string
+     * @var Measurement[]
      */
-    public function getKey(): string
-    {
-        return $this->key;
-    }
+    private $measurements;
 
     /**
-     * @return float
+     * @param string        $name
+     * @param Tag[]         $tags
+     * @param Measurement[] $measurements
+     * @param float         $time
      */
-    public function getValue(): float
+    public function __construct(string $name, array $tags, array $measurements, ?float $time = null)
     {
-        return $this->value;
+        $this->name = $name;
+        foreach ($tags as $tag) {
+            if (!($tag instanceof Tag)) {
+                throw UnexpectedValueException::expectedTag($tag);
+            }
+        }
+        $this->tags = $tags;
+        foreach ($measurements as $measurement) {
+            if (!($measurement instanceof Measurement)) {
+                throw UnexpectedValueException::expectedMeasurement($measurement);
+            }
+        }
+        $this->measurements = $measurements;
+        $this->time = $time ?? \hrtime(true) * 1e-9;
     }
 
-    /**
-     * @return float
-     */
-    public function getTime(): float
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function time(): float
     {
         return $this->time;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function tags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @return Measurement[]
+     */
+    public function measurements(): array
+    {
+        return $this->measurements;
     }
 }
