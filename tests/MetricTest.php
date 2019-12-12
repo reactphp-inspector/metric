@@ -53,6 +53,6 @@ final class MetricTest extends TestCase
         self::assertSame(0.0, $metric->measurements()[0]->value());
         self::assertSame('key', $metric->measurements()[0]->tags()[0]->key());
         self::assertSame('value', $metric->measurements()[0]->tags()[0]->value());
-        self::assertIsFloat( $metric->time());
+        self::assertIsFloat($metric->time());
     }
 }

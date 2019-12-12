@@ -45,7 +45,7 @@ final class Metric
             }
         }
         $this->measurements = $measurements;
-        $this->time = $time ?? \hrtime(true) * 1e-9;
+        $this->time = $time ?? \microtime(true);
     }
 
     public function name(): string
