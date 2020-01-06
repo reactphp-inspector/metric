@@ -5,9 +5,9 @@ namespace ReactInspector;
 final class Metric
 {
     /**
-     * @var string
+     * @var Config
      */
-    private $name;
+    private $config;
 
     /**
      * @var float
@@ -25,14 +25,15 @@ final class Metric
     private $measurements;
 
     /**
-     * @param string        $name
+     * @param Config        $config
      * @param Tag[]         $tags
      * @param Measurement[] $measurements
      * @param float         $time
+     * @param string        $type
      */
-    public function __construct(string $name, array $tags, array $measurements, ?float $time = null)
+    public function __construct(Config $config, array $tags, array $measurements, ?float $time = null, ?string $type = 'counter')
     {
-        $this->name = $name;
+        $this->config = $config;
         foreach ($tags as $tag) {
             if (!($tag instanceof Tag)) {
                 throw UnexpectedValueException::expectedTag($tag);
@@ -48,9 +49,9 @@ final class Metric
         $this->time = $time ?? \microtime(true);
     }
 
-    public function name(): string
+    public function config(): Config
     {
-        return $this->name;
+        return $this->config;
     }
 
     public function time(): float

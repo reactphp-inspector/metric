@@ -2,6 +2,7 @@
 
 namespace ReactInspector\Tests;
 
+use ReactInspector\Config;
 use ReactInspector\Measurement;
 use ReactInspector\Metric;
 use ReactInspector\Tag;
@@ -21,7 +22,7 @@ final class MetricTest extends TestCase
         self::expectException(UnexpectedValueException::class);
         self::expectExceptionMessageMatches('#Tag#');
 
-        new Metric('name', [new Measurement(0.0)], []);
+        new Metric(new Config('name', 'counter', ''), [new Measurement(0.0)], []);
     }
 
     /**
@@ -32,7 +33,7 @@ final class MetricTest extends TestCase
         self::expectException(UnexpectedValueException::class);
         self::expectExceptionMessageMatches('#Measurement#');
 
-        new Metric('name', [new Tag('key', 'value')], [new Tag('key', 'value')]);
+        new Metric(new Config('name', 'counter', ''), [new Tag('key', 'value')], [new Tag('key', 'value')]);
     }
 
     /**
@@ -43,9 +44,10 @@ final class MetricTest extends TestCase
         $tags = [new Tag('key', 'value')];
         $measurements = [new Measurement(0.0, new Tag('key', 'value'))];
 
-        $metric = new Metric('name', $tags, $measurements);
+        $metric = new Metric(new Config('name', 'counter', ''), $tags, $measurements);
 
-        self::assertSame('name', $metric->name());
+        self::assertSame('name', $metric->config()->name());
+        self::assertSame('counter', $metric->config()->type());
         self::assertSame($tags, $metric->tags());
         self::assertSame('key', $metric->tags()[0]->key());
         self::assertSame('value', $metric->tags()[0]->value());
