@@ -20,6 +20,16 @@ final class Tag
         $this->value = $value;
     }
 
+    public function __toString(): string
+    {
+        return $this->key . '=' . $this->value;
+    }
+
+    public static function fromString(string $string): Tag
+    {
+        return new Tag(...\explode('=', $string));
+    }
+
     public function key(): string
     {
         return $this->key;

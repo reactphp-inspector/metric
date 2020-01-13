@@ -15,7 +15,25 @@ final class Tags
         $this->add(...$tags);
     }
 
-    public function add(Tag ...$tags)
+    public function __toString(): string
+    {
+        \ksort($this->tags);
+
+        return \implode(',', $this->tags);
+    }
+
+    public static function fromString(string $string): Tags
+    {
+        $tags = [];
+
+        foreach (\explode(',', $string) as $tag) {
+            $tags[] = Tag::fromString($tag);
+        }
+
+        return new Tags(...$tags);
+    }
+
+    public function add(Tag ...$tags): void
     {
         foreach ($tags as $tag) {
             $this->tags[$tag->key()] = $tag;
