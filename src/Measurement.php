@@ -10,15 +10,15 @@ final class Measurement
     private $value;
 
     /**
-     * @var Tag[]
+     * @var Tags
      */
-    private $tags = [];
+    private $tags;
 
     /**
      * @param float $value
-     * @param Tag[] $tags
+     * @param Tags  $tags
      */
-    public function __construct(float $value, Tag ...$tags)
+    public function __construct(float $value, Tags $tags)
     {
         $this->value = $value;
         $this->tags = $tags;
@@ -29,10 +29,7 @@ final class Measurement
         return $this->value;
     }
 
-    /**
-     * @return Tag[]
-     */
-    public function tags(): array
+    public function tags(): Tags
     {
         return $this->tags;
     }

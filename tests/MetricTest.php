@@ -32,7 +32,7 @@ final class MetricTest extends TestCase
     public function expectedBehaviorGetters(): void
     {
         $tags = new Tags(new Tag('key', 'value'));
-        $measurements = [new Measurement(0.0, new Tag('key', 'value'))];
+        $measurements = [new Measurement(0.0, new Tags(new Tag('key', 'value')))];
 
         $metric = new Metric(new Config('name', 'counter', ''), $tags, $measurements);
 
@@ -43,8 +43,8 @@ final class MetricTest extends TestCase
         self::assertSame('value', $metric->tags()->get()['key']->value());
         self::assertSame($measurements, $metric->measurements());
         self::assertSame(0.0, $metric->measurements()[0]->value());
-        self::assertSame('key', $metric->measurements()[0]->tags()[0]->key());
-        self::assertSame('value', $metric->measurements()[0]->tags()[0]->value());
+        self::assertTrue(\array_key_exists('key', $metric->measurements()[0]->tags()->get()));
+        self::assertSame('value', $metric->measurements()[0]->tags()->get()['key']->value());
         self::assertIsFloat($metric->time());
     }
 }
