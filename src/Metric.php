@@ -29,9 +29,8 @@ final class Metric
      * @param Tags          $tags
      * @param Measurement[] $measurements
      * @param float         $time
-     * @param string        $type
      */
-    public function __construct(Config $config, Tags $tags, array $measurements, ?float $time = null, ?string $type = 'counter')
+    public function __construct(Config $config, Tags $tags, array $measurements, ?float $time = null)
     {
         $this->config = $config;
         $this->tags = $tags;
