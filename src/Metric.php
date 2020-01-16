@@ -15,7 +15,7 @@ final class Metric
     private $time;
 
     /**
-     * @var Tag[]
+     * @var Tags
      */
     private $tags;
 
@@ -26,19 +26,14 @@ final class Metric
 
     /**
      * @param Config        $config
-     * @param Tag[]         $tags
+     * @param Tags          $tags
      * @param Measurement[] $measurements
      * @param float         $time
      * @param string        $type
      */
-    public function __construct(Config $config, array $tags, array $measurements, ?float $time = null, ?string $type = 'counter')
+    public function __construct(Config $config, Tags $tags, array $measurements, ?float $time = null, ?string $type = 'counter')
     {
         $this->config = $config;
-        foreach ($tags as $tag) {
-            if (!($tag instanceof Tag)) {
-                throw UnexpectedValueException::expectedTag($tag);
-            }
-        }
         $this->tags = $tags;
         foreach ($measurements as $measurement) {
             if (!($measurement instanceof Measurement)) {
@@ -60,9 +55,9 @@ final class Metric
     }
 
     /**
-     * @return Tag[]
+     * @return Tags
      */
-    public function tags(): array
+    public function tags(): Tags
     {
         return $this->tags;
     }

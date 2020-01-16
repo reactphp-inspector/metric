@@ -10,15 +10,6 @@ final class UnexpectedValueException extends \UnexpectedValueException
     /** @var string */
     private $receivedType;
 
-    public static function expectedTag($received): self
-    {
-        $self = new self('Items in rags array must be instanceof Tag');
-        $self->expectedType = Tag::class;
-        $self->receivedType = \is_object($received) ? \get_class($received) : \gettype($received);
-
-        return $self;
-    }
-
     public static function expectedMeasurement($received): self
     {
         $self = new self('Items in rags array must be instanceof Measurement');
