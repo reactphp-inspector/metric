@@ -24,6 +24,18 @@ final class Measurement
         $this->tags = $tags;
     }
 
+    public function __toString(): string
+    {
+        return $this->value . '#' . (string)$this->tags();
+    }
+
+    public static function fromString(string $string): Measurement
+    {
+        [$value, $tags] = \explode('#', $string);
+
+        return new Measurement((float)$value, Tags::fromString($tags));
+    }
+
     public function value(): float
     {
         return $this->value;

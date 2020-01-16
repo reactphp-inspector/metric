@@ -31,6 +31,18 @@ final class Config
         $this->description = $description;
     }
 
+    public function __toString(): string
+    {
+        return $this->name . '*' . $this->type . '*' . $this->description;
+    }
+
+    public static function fromString(string $string): Config
+    {
+        [$name, $type, $description] = \explode('*', $string, 3);
+
+        return new Config($name, $type, $description);
+    }
+
     public function name(): string
     {
         return $this->name;

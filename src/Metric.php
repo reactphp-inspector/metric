@@ -20,27 +20,34 @@ final class Metric
     private $tags;
 
     /**
-     * @var Measurement[]
+     * @var Measurements
      */
     private $measurements;
 
     /**
-     * @param Config        $config
-     * @param Tags          $tags
-     * @param Measurement[] $measurements
-     * @param float         $time
+     * @param Config       $config
+     * @param Tags         $tags
+     * @param Measurements $measurements
+     * @param float        $time
      */
-    public function __construct(Config $config, Tags $tags, array $measurements, ?float $time = null)
+    public function __construct(Config $config, Tags $tags, Measurements $measurements, ?float $time = null)
     {
         $this->config = $config;
         $this->tags = $tags;
-        foreach ($measurements as $measurement) {
-            if (!($measurement instanceof Measurement)) {
-                throw UnexpectedValueException::expectedMeasurement($measurement);
-            }
-        }
         $this->measurements = $measurements;
         $this->time = $time ?? \microtime(true);
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->config . '%' . (string)$this->tags . '%' . (string)$this->measurements . '%' . $this->time;
+    }
+
+    public static function fromString(string $string): Metric
+    {
+        [$config, $tags, $measurements, $time] = \explode('%', $string);
+
+        return new Metric(Config::fromString($config), Tags::fromString($tags), Measurements::fromString($measurements), (float)$time);
     }
 
     public function config(): Config
@@ -62,9 +69,9 @@ final class Metric
     }
 
     /**
-     * @return Measurement[]
+     * @return Measurements
      */
-    public function measurements(): array
+    public function measurements(): Measurements
     {
         return $this->measurements;
     }

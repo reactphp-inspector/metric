@@ -6,11 +6,11 @@
     {
       "name": "Cees-Jan Kiewiet",
       "email": "ceesjank@gmail.com",
-      "homepage": "http://wyrihaximus.net/"
+      "homepage": "https://www.wyrihaximus.net/"
     }
   ],
   "require": {
-    "php": "^7.3"
+    "php": "^7.4"
   },
   "require-dev": {
     "wyrihaximus/test-utilities": "^1.5"
@@ -25,31 +25,10 @@
       "ReactInspector\\Tests\\": "tests/"
     }
   },
-  "suggest": {
-    "react-inspector/event-loop": "Measure what is going through the event loop",
-    "react-inspector/memory-usage": "Message the memory usage of the current PHP process",
-    "react-inspector/stream": "Measure what is going through fread/fwrite calls from react/stream",
-    "react-inspector/bunny": "Measure what is going through fread/fwrite calls from bunny/bunny"
-  },
   "config": {
     "sort-packages": true,
     "platform": {
-      "php": "7.3"
-    }
-  },
-  "extra": {
-    "react-inspector": {
-      "collectors": {
-        "ReactInspector\\Collector": "src/Collector"
-      },
-      "metrics": [
-        "inspector.metrics"
-      ],
-      "reset": {
-        "ticks": [
-          "inspector.metrics"
-        ]
-      }
+      "php": "7.4"
     }
   },
   "scripts": {

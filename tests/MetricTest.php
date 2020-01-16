@@ -4,10 +4,10 @@ namespace ReactInspector\Tests;
 
 use ReactInspector\Config;
 use ReactInspector\Measurement;
+use ReactInspector\Measurements;
 use ReactInspector\Metric;
 use ReactInspector\Tag;
 use ReactInspector\Tags;
-use ReactInspector\UnexpectedValueException;
 use WyriHaximus\TestUtilities\TestCase;
 
 /**
@@ -15,15 +15,23 @@ use WyriHaximus\TestUtilities\TestCase;
  */
 final class MetricTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function throwExceptionOnNonMeasurementsInMeasurementArray(): void
-    {
-        self::expectException(UnexpectedValueException::class);
-        self::expectExceptionMessageMatches('#Measurement#');
+    private Config $config;
 
-        new Metric(new Config('name', 'counter', ''), new Tags(new Tag('key', 'value')), [new Tag('key', 'value')]);
+    private Tags $tags;
+
+    private Measurements $measurements;
+
+    private Metric $metric;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->config = new Config('name', 'counter', 'A little help *explaining* the why for this metric');
+        $this->tags = new Tags(new Tag('key', 'value'));
+        $this->measurements = new Measurements(new Measurement(12.34, new Tags(new Tag('key', 'value'))));
+
+        $this->metric = new Metric($this->config, $this->tags, $this->measurements, 123456789.1234);
     }
 
     /**
@@ -31,20 +39,27 @@ final class MetricTest extends TestCase
      */
     public function expectedBehaviorGetters(): void
     {
-        $tags = new Tags(new Tag('key', 'value'));
-        $measurements = [new Measurement(0.0, new Tags(new Tag('key', 'value')))];
+        self::assertSame('name', $this->metric->config()->name());
+        self::assertSame('counter', $this->metric->config()->type());
+        self::assertSame('A little help *explaining* the why for this metric', $this->metric->config()->description());
+        self::assertSame($this->tags, $this->metric->tags());
+        self::assertTrue(\array_key_exists('key', $this->metric->tags()->get()));
+        self::assertSame('value', $this->metric->tags()->get()['key']->value());
+        self::assertSame($this->measurements, $this->metric->measurements());
+        self::assertSame(12.34, $this->metric->measurements()->get()[0]->value());
+        self::assertTrue(\array_key_exists('key', $this->metric->measurements()->get()[0]->tags()->get()));
+        self::assertSame('value', $this->metric->measurements()->get()[0]->tags()->get()['key']->value());
+        self::assertIsFloat($this->metric->time());
+    }
 
-        $metric = new Metric(new Config('name', 'counter', ''), $tags, $measurements);
-
-        self::assertSame('name', $metric->config()->name());
-        self::assertSame('counter', $metric->config()->type());
-        self::assertSame($tags, $metric->tags());
-        self::assertTrue(\array_key_exists('key', $metric->tags()->get()));
-        self::assertSame('value', $metric->tags()->get()['key']->value());
-        self::assertSame($measurements, $metric->measurements());
-        self::assertSame(0.0, $metric->measurements()[0]->value());
-        self::assertTrue(\array_key_exists('key', $metric->measurements()[0]->tags()->get()));
-        self::assertSame('value', $metric->measurements()[0]->tags()->get()['key']->value());
-        self::assertIsFloat($metric->time());
+    /**
+     * @test
+     */
+    public function toAndFromStringConversion(): void
+    {
+        self::assertSame(
+            'name*counter*A little help *explaining* the why for this metric%key=value%12.34#key=value%123456789.1234',
+            (string)Metric::fromString((string)$this->metric)
+        );
     }
 }
