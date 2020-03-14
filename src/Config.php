@@ -2,32 +2,20 @@
 
 namespace ReactInspector;
 
+use function explode;
+
 final class Config
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
-    /**
-     * @var string
-     */
-    private $description;
+    private string $description;
 
-    /**
-     * @param string $name
-     * @param string $type
-     * @param string $description
-     */
     public function __construct(string $name, string $type, string $description)
     {
-        $this->name = $name;
-        $this->type = $type;
+        $this->name        = $name;
+        $this->type        = $type;
         $this->description = $description;
     }
 
@@ -38,7 +26,7 @@ final class Config
 
     public static function fromString(string $string): Config
     {
-        [$name, $type, $description] = \explode('*', $string, 3);
+        [$name, $type, $description] = explode('*', $string, 3);
 
         return new Config($name, $type, $description);
     }

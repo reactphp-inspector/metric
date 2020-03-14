@@ -2,21 +2,17 @@
 
 namespace ReactInspector;
 
+use function explode;
+
 final class Tag
 {
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
 
-    /**
-     * @var string
-     */
-    private $value;
+    private string $value;
 
     public function __construct(string $key, string $value)
     {
-        $this->key = $key;
+        $this->key   = $key;
         $this->value = $value;
     }
 
@@ -27,7 +23,7 @@ final class Tag
 
     public static function fromString(string $string): Tag
     {
-        return new Tag(...\explode('=', $string));
+        return new Tag(...explode('=', $string));
     }
 
     public function key(): string

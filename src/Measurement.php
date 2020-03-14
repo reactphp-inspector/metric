@@ -2,38 +2,30 @@
 
 namespace ReactInspector;
 
+use function explode;
+
 final class Measurement
 {
-    /**
-     * @var float
-     */
-    private $value;
+    private float $value;
 
-    /**
-     * @var Tags
-     */
-    private $tags;
+    private Tags $tags;
 
-    /**
-     * @param float $value
-     * @param Tags  $tags
-     */
     public function __construct(float $value, Tags $tags)
     {
         $this->value = $value;
-        $this->tags = $tags;
+        $this->tags  = $tags;
     }
 
     public function __toString(): string
     {
-        return $this->value . '#' . (string)$this->tags();
+        return $this->value . '#' . $this->tags();
     }
 
     public static function fromString(string $string): Measurement
     {
-        [$value, $tags] = \explode('#', $string);
+        [$value, $tags] = explode('#', $string);
 
-        return new Measurement((float)$value, Tags::fromString($tags));
+        return new Measurement((float) $value, Tags::fromString($tags));
     }
 
     public function value(): float

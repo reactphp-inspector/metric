@@ -2,52 +2,42 @@
 
 namespace ReactInspector;
 
+use function explode;
+use function microtime;
+
 final class Metric
 {
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
-    /**
-     * @var float
-     */
-    private $time;
+    private float $time;
 
-    /**
-     * @var Tags
-     */
-    private $tags;
+    private Tags $tags;
 
-    /**
-     * @var Measurements
-     */
-    private $measurements;
+    private Measurements $measurements;
 
-    /**
-     * @param Config       $config
-     * @param Tags         $tags
-     * @param Measurements $measurements
-     * @param float        $time
-     */
-    public function __construct(Config $config, Tags $tags, Measurements $measurements, ?float $time = null)
+    public function __construct(Config $config, Tags $tags, Measurements $measurements, float $time)
     {
-        $this->config = $config;
-        $this->tags = $tags;
+        $this->config       = $config;
+        $this->tags         = $tags;
         $this->measurements = $measurements;
-        $this->time = $time ?? \microtime(true);
+        $this->time         = $time;
+    }
+
+    public static function create(Config $config, Tags $tags, Measurements $measurements): self
+    {
+        return new self($config, $tags, $measurements, microtime(true));
     }
 
     public function __toString(): string
     {
-        return (string)$this->config . '%' . (string)$this->tags . '%' . (string)$this->measurements . '%' . $this->time;
+        return $this->config . '%' . $this->tags . '%' . $this->measurements . '%' . $this->time;
     }
 
     public static function fromString(string $string): Metric
     {
-        [$config, $tags, $measurements, $time] = \explode('%', $string);
+        [$config, $tags, $measurements, $time] = explode('%', $string);
 
-        return new Metric(Config::fromString($config), Tags::fromString($tags), Measurements::fromString($measurements), (float)$time);
+        return new Metric(Config::fromString($config), Tags::fromString($tags), Measurements::fromString($measurements), (float) $time);
     }
 
     public function config(): Config
@@ -60,17 +50,11 @@ final class Metric
         return $this->time;
     }
 
-    /**
-     * @return Tags
-     */
     public function tags(): Tags
     {
         return $this->tags;
     }
 
-    /**
-     * @return Measurements
-     */
     public function measurements(): Measurements
     {
         return $this->measurements;
