@@ -11,9 +11,7 @@ use ReactInspector\Tags;
 use WyriHaximus\TestUtilities\TestCase;
 use function array_key_exists;
 
-/**
- * @internal
- */
+/** @internal */
 final class MetricTest extends TestCase
 {
     private Config $config;
