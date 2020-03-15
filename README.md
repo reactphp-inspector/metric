@@ -1,18 +1,18 @@
-# ReactPHP Inspector Metrics stream
+# Metric, Measurement, and Tag VO's
 
-[![Linux Build Status](https://travis-ci.org/reactphp-inspector/metrics.png)](https://travis-ci.org/reactphp-inspector/metrics)
-[![Latest Stable Version](https://poser.pugx.org/react-inspector/metrics/v/stable.png)](https://packagist.org/packages/react-inspector/metrics)
-[![Total Downloads](https://poser.pugx.org/react-inspector/metrics/downloads.png)](https://packagist.org/packages/react-inspector/metrics)
-[![Code Coverage](https://scrutinizer-ci.com/g/reactphp-inspector/metrics/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/reactphp-inspector/metrics/?branch=master)
-[![License](https://poser.pugx.org/react-inspector/metrics/license.png)](https://packagist.org/packages/react-inspector/metrics)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/reactphp-inspector/metrics/badge.svg)](https://travis-ci.org/reactphp-inspector/metrics)
+![Continuous Integration](https://github.com/reactphp-inspector/metric/workflows/Continuous%20Integration/badge.svg)
+[![Latest Stable Version](https://poser.pugx.org/react-inspector/metric/v/stable.png)](https://packagist.org/packages/react-inspector/metric)
+[![Total Downloads](https://poser.pugx.org/react-inspector/metric/downloads.png)](https://packagist.org/packages/react-inspector/metric/stats)
+[![Code Coverage](https://scrutinizer-ci.com/g/reactphp-inspector/metric/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/reactphp-inspector/metric/?branch=master)
+[![Type Coverage](https://shepherd.dev/github/reactphp-inspector/metric/coverage.svg)](https://shepherd.dev/github/reactphp-inspector/metric)
+[![License](https://poser.pugx.org/react-inspector/metric/license.png)](https://packagist.org/packages/react-inspector/metric)
 
 ### Installation ###
 
 To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `^`.
 
 ```
-composer require react-inspector/metrics 
+composer require react-inspector/metric 
 ```
 
 ## Contributing ##
@@ -21,7 +21,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License ##
 
-Copyright 2019 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
+Copyright 2020 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
