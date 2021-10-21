@@ -5,8 +5,9 @@ on:
 jobs:
   composer-install:
     strategy:
+      fail-fast: false
       matrix:
-        php: [7.4]
+        php: [7.4, "8.0", 8.1]
         composer: [lowest, current, highest]
     runs-on: ubuntu-latest
     container:
@@ -29,10 +30,11 @@ jobs:
         if: matrix.composer == 'highest'
   qa:
     strategy:
+      fail-fast: false
       matrix:
-        php: [7.4]
+        php: [7.4, "8.0", 8.1]
         composer: [lowest, current, highest]
-        qa: [lint, cs, stan, psalm, unit-ci, infection, composer-require-checker, composer-unused]
+        qa: [lint, cs, stan, psalm, unit, infection, composer-require-checker, composer-unused]
     needs: composer-install
     runs-on: ubuntu-latest
     container:
