@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ReactInspector;
 
@@ -11,9 +13,6 @@ final class Tags
     /** @var array<string, Tag> */
     private array $tags = [];
 
-    /**
-     * @param array<int, Tag> $tags
-     */
     public function __construct(Tag ...$tags)
     {
         $this->add(...$tags);

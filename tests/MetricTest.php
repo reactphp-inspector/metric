@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ReactInspector\Tests;
 
@@ -9,6 +11,7 @@ use ReactInspector\Metric;
 use ReactInspector\Tag;
 use ReactInspector\Tags;
 use WyriHaximus\TestUtilities\TestCase;
+
 use function array_key_exists;
 
 /** @internal */

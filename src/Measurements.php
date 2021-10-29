@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ReactInspector;
 
@@ -11,9 +13,6 @@ final class Measurements
     /** @var array<int, Measurement> */
     private array $measurements = [];
 
-    /**
-     * @param array<int, Measurement> $measurements
-     */
     public function __construct(Measurement ...$measurements)
     {
         $this->add(...$measurements);

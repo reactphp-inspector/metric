@@ -10,15 +10,15 @@
     }
   ],
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "thecodingmachine/safe": "^1.0"
   },
   "require-dev": {
-    "wyrihaximus/test-utilities": "^2.0"
+    "wyrihaximus/test-utilities": "^3.7.3"
   },
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "7.4.7"
     },
     "sort-packages": true
   },
